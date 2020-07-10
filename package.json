@@ -1,0 +1,39 @@
+{
+  "name": "shut-me-down",
+  "version": "1.0.2",
+  "description": "Shut down your machine",
+  "main": "bin/index.js",
+  "bin": {
+    "shut-me-down": "bin/index.js"
+  },
+  "scripts": {
+    "test": "node test",
+    "start": "node index",
+    "uninstall": "node bin stop",
+    "prepublishOnly": "pkg-ok"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oscmedgon/shut-me-down.git"
+  },
+  "keywords": [
+    "stop",
+    "shutdown",
+    "halt",
+    "poweroff",
+    "sleep",
+    "server"
+  ],
+  "author": "oscmedgon <oscmedgon@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oscmedgon/shut-me-down/issues"
+  },
+  "homepage": "https://github.com/oscmedgon/shut-me-down#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "network-address": "^1.0.0",
+    "pkg-ok": "^2.3.1",
+    "power-off": "^1.1.2"
+  }
+}
