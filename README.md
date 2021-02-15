@@ -63,6 +63,28 @@ sudo netstat -onatup | grep 5709
 #tcp        0      0 0.0.0.0:5709            0.0.0.0:*               LISTEN      31025/node           off (0.00/0/0)
 ```
 
+### Configuring service on Windows 10
+Its required to have installed nodejs in windows and administrator rights to enable the service.
+
+The fist step is to install the package from npm, open powershell and install the package with the following command.
+```shell
+npm i -g shut-me-down
+```
+
+The next step the package is installed you need to create the script that is going to execute the service itself.
+Open the session of the user that you want to use for the service create a file under `%APPDATA%/Microsoft/Windows/Start Menu/programs/startup` the file can have any name, but in the example it's called `shutdown.ps1`.
+
+In this file you need to write the command that is going to execute the service this is an example of command to execute the service.
+```shell
+Start-Process -NoNewWindow shut-me-down 127.0.0.1
+```
+You can pass the address of the internet adapter where the service is going to listen, by default it uses `0.0.0.0` if none is passed, this means that it listens on all the available interfaces.
+
+The las step is to allow execution of local scripts and remote signed, for this step you need to open a powershell session with administrative rights and execute the following command.
+```shell
+set-executionpolicy remotesigned
+```
+
 ### USAGE
 The application listens on the selected ip, and the port `5709`
 You can test that the service woks by sending a `POST` to the url `http://your.choosen.ip:5709/halt`. If you want to test it from your terminal this command will help you:
