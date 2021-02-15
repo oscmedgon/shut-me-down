@@ -14,7 +14,9 @@ npm i -g shut-me-down
 your-username ALL=NOPASSWD: /sbin/shutdown       # OS X and Linux 
 ```
 
-### Configuring service on Linux or similar
+### CONFIGURATION
+
+#### Configuring service under unix with systemd.
 
 For this purpose we can use `systemctl` in order to set up a persistent service running on our machine.
 You can do this with the following command:
@@ -63,7 +65,7 @@ sudo netstat -onatup | grep 5709
 #tcp        0      0 0.0.0.0:5709            0.0.0.0:*               LISTEN      31025/node           off (0.00/0/0)
 ```
 
-### Configuring service on Windows 10
+#### Configuring service on Windows 10
 Its required to have installed nodejs in windows and administrator rights to enable the service.
 
 The fist step is to install the package from npm, open powershell and install the package with the following command.
@@ -71,19 +73,17 @@ The fist step is to install the package from npm, open powershell and install th
 npm i -g shut-me-down
 ```
 
-The next step the package is installed you need to create the script that is going to execute the service itself.
-Open the session of the user that you want to use for the service create a file under `%APPDATA%/Microsoft/Windows/Start Menu/programs/startup` the file can have any name, but in the example it's called `shutdown.ps1`.
-
-In this file you need to write the command that is going to execute the service this is an example of command to execute the service.
+Now you need to create the service that will start automatically the shutdown API, for this you need a powershell session with admin rights, to do so, execute the following command, but make sure thar you update the path with the path of the binary in your case.
 ```shell
-Start-Process -NoNewWindow shut-me-down 127.0.0.1
+sc.exe create shutdownAPI binpath='C:/users/USERNAME/appdata/roaming/npm/shut-me-down.cmd' start= auto
 ```
-You can pass the address of the internet adapter where the service is going to listen, by default it uses `0.0.0.0` if none is passed, this means that it listens on all the available interfaces.
+For more information review [Microsoft documentation](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/sc-create)
 
-The las step is to allow execution of local scripts and remote signed, for this step you need to open a powershell session with administrative rights and execute the following command.
-```shell
-set-executionpolicy remotesigned
-```
+You can review the service once the service is created you can check that the service is created, and review that is configured to automatically start with the system.
+
+#### Windows known issues
+If you try to start the service this will fail, but the service will be ready, try to call the shutdown command described in the ***Usage*** section and check if it works.
+Improvements to the service process are required.
 
 ### USAGE
 The application listens on the selected ip, and the port `5709`
